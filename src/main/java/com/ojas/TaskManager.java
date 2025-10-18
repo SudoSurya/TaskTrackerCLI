@@ -20,6 +20,12 @@ public class TaskManager {
         tasks = new java.util.ArrayList<>();
     }
 
+    public void getTasksByStatus(String status) {
+        this.tasks.stream()
+                .filter(task -> task.getStatus().equalsIgnoreCase(status))
+                .forEach(System.out::println);
+    }
+
     public List<Task> loadTasks() {
         try (BufferedReader br = new BufferedReader(new FileReader(PATH))) {
             String line;

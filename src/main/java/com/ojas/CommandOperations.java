@@ -11,7 +11,7 @@ public class CommandOperations {
     }
 
 
-    public static void add(String[] args) throws IOException{
+    public static void add(String[] args){
         String description = args[1];
         System.out.println("Adding task with description: " + description);
 
@@ -35,7 +35,11 @@ public class CommandOperations {
         String status = "todo";
         Task newTask = new Task(newTaskId, description, status, new java.util.Date(), new java.util.Date());
         tasks.add(newTask);
-        taskManager.saveTasks(tasks);
+       try {
+           taskManager.saveTasks(tasks);
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
         System.out.println("New Task Created: " + newTask);
         
     }
@@ -180,4 +184,35 @@ public class CommandOperations {
             throw new RuntimeException(e);
         }
    }
+
+    public static void manageListCommand(String[] args) {
+        if (!Utils.isFileExists(PATH)) {
+            System.out.println("Tasks file does not exist. create some tasks first.");
+        }
+        TaskManager taskManager = new TaskManager();
+        List<Task> tasks = taskManager.loadTasks();
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found to mark. Create some tasks first.");
+            return;
+        }
+        if (args.length < 2) {
+            System.out.println("No additional parameters provided for list command. Listing all tasks.");
+            tasks.forEach(System.out::println);
+            return;
+        }
+
+        switch (args[1]) {
+            case "done":
+                taskManager.getTasksByStatus("done");
+                break;
+            case "in-progress":
+                taskManager.getTasksByStatus("in-progress");
+                break;
+            case "todo":
+                taskManager.getTasksByStatus("todo");
+                break;
+            default:
+                System.out.println("Unknown command: " + args[1]);
+        }
+    }
 }

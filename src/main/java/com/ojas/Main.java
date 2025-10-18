@@ -45,6 +45,7 @@ public class Main {
                     System.out.println("Task ID required for deleting a task.");
                     return;
                 }
+                CommandOperations.delete(args);
                 break;
             case "mark-in-progress":
                 // Handle mark-in-progress command
@@ -52,6 +53,7 @@ public class Main {
                     System.out.println("Task ID required for marking a task as in-progress.");
                     return;
                 }
+                CommandOperations.markInProgress(args);
                 break;
             case "mark-done":
                 // Handle mark-done command
@@ -59,6 +61,7 @@ public class Main {
                     System.out.println("Task ID required for marking a task as done.");
                     return;
                 }   
+                CommandOperations.markDone(args);
                 break;
             case "list":
                 // Handle list command

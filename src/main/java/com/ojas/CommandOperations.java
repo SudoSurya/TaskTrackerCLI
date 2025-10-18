@@ -49,15 +49,18 @@ public class CommandOperations {
        }
        TaskManager taskManager = new TaskManager();
        List<Task> tasks = taskManager.loadTasks();
-       if(taskId == null || taskId.trim().isEmpty() || tasks.size() < Integer.parseInt(taskId)){
-           System.out.println("Invalid task ID provided for update.");
-           return;
-       }
        if(tasks.isEmpty()){
            System.out.println("No tasks found to update. Create some tasks first.");
            return;
        }
-
+       if(taskId == null || taskId.trim().isEmpty()){
+           System.out.println("Invalid task ID provided for update.");
+           return;
+       }
+       if(tasks.stream().filter(t -> t.getId() == Integer.parseInt(taskId)).toList().isEmpty()){
+           System.out.println("No task found with ID: " + taskId);
+           return;
+       }
 
        tasks.stream()
                .filter(task -> task.getId() == Integer.parseInt(taskId))
@@ -76,6 +79,105 @@ public class CommandOperations {
    public static void delete(String[] args){
        String taskId = args[1];
        System.out.println("Deleting task with ID: " + taskId);
+       if (!Utils.isFileExists(PATH)) {
+           System.out.println("Tasks file does not exist. create some tasks first.");
+       }
+       TaskManager taskManager = new TaskManager();
+       List<Task> tasks = taskManager.loadTasks();
+       if (tasks.isEmpty()) {
+           System.out.println("No tasks found to delete. Create some tasks first.");
+           return;
+       }
+       if (taskId == null || taskId.trim().isEmpty()) {
+           System.out.println("Invalid task ID provided for update.");
+           return;
+       }
+       if (tasks.stream().filter(t -> t.getId() == Integer.parseInt(taskId)).toList().isEmpty()) {
+           System.out.println("No task found with ID: " + taskId);
+           return;
+       }
+
+       List<Task> updatedTasks = tasks.stream()
+               .filter(task -> task.getId() != Integer.parseInt(taskId))
+               .toList();
+
+       try {
+           taskManager.saveTasks(updatedTasks);
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
+
    } 
+
+   public static void markInProgress(String[] args){
+       String taskId = args[1];
+       System.out.println("Marking task with ID: " + taskId + " as in-progress");
+       if (!Utils.isFileExists(PATH)) {
+           System.out.println("Tasks file does not exist. create some tasks first.");
+       }
+       TaskManager taskManager = new TaskManager();
+       List<Task> tasks = taskManager.loadTasks();
+       if (tasks.isEmpty()) {
+           System.out.println("No tasks found to mark. Create some tasks first.");
+           return;
+       }
+       if (taskId == null || taskId.trim().isEmpty()) {
+           System.out.println("Invalid task ID provided for update.");
+           return;
+       }
+       if (tasks.stream().filter(t -> t.getId() == Integer.parseInt(taskId)).toList().isEmpty()) {
+           System.out.println("No task found with ID: " + taskId);
+           return;
+       }
+
+       tasks.stream()
+               .filter(task -> task.getId() == Integer.parseInt(taskId))
+               .findFirst()
+               .ifPresent(task -> {
+                   task.setStatus("in-progress");
+                   task.setUpdatedAt(new java.util.Date());
+               });
+
+       try {
+           taskManager.saveTasks(tasks);
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
+   }
     
+    public static void markDone(String[] args){
+        String taskId = args[1];
+        System.out.println("Marking task with ID: " + taskId + " as done");
+        if (!Utils.isFileExists(PATH)) {
+            System.out.println("Tasks file does not exist. create some tasks first.");
+        }
+        TaskManager taskManager = new TaskManager();
+        List<Task> tasks = taskManager.loadTasks();
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found to mark. Create some tasks first.");
+            return;
+        }
+        if (taskId == null || taskId.trim().isEmpty()) {
+            System.out.println("Invalid task ID provided for update.");
+            return;
+        }
+        if (tasks.stream().filter(t -> t.getId() == Integer.parseInt(taskId)).toList().isEmpty()) {
+            System.out.println("No task found with ID: " + taskId);
+            return;
+        }
+
+        tasks.stream()
+                .filter(task -> task.getId() == Integer.parseInt(taskId))
+                .findFirst()
+                .ifPresent(task -> {
+                    task.setStatus("done");
+                    task.setUpdatedAt(new java.util.Date());
+                });
+
+        try {
+            taskManager.saveTasks(tasks);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+   }
 }

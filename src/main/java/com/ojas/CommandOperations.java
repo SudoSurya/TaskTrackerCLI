@@ -29,7 +29,13 @@ public class CommandOperations {
         TaskManager taskManager = new TaskManager();
         List<Task> tasks = taskManager.loadTasks();
 
-        int newTaskId = tasks.size() + 1;
+        int newTaskId;
+        if (tasks.isEmpty()) {
+            newTaskId = tasks.size() + 1;
+        }else{
+            newTaskId = tasks.get(tasks.size() - 1).getId() + 1;
+        }
+
         Task newTask = new Task(newTaskId, description, "todo", new java.util.Date(), new java.util.Date());
         tasks.add(newTask);
         try {
@@ -197,6 +203,9 @@ public class CommandOperations {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
+        System.out.println("Task with ID " + taskId + " has been marked as done.");
    }
 
     public static void manageListCommand(String[] args) {
@@ -219,7 +228,7 @@ public class CommandOperations {
             case "done" -> taskManager.getTasksByStatus("done");
             case "in-progress" -> taskManager.getTasksByStatus("in-progress");
             case "todo" -> taskManager.getTasksByStatus("todo");
-            default -> System.out.println("Unknown command: " + args[1]);
+            default -> System.out.println("Unknown list command: " + args[1]);
         }
     }
 }

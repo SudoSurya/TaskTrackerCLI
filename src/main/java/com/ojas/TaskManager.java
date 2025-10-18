@@ -21,9 +21,10 @@ public class TaskManager {
     }
 
     public void getTasksByStatus(String status) {
-        this.tasks.stream()
+        List<Task> filteredTasks = this.tasks.stream()
                 .filter(task -> task.getStatus().equalsIgnoreCase(status))
-                .forEach(System.out::println);
+                .toList();
+        Utils.printMulitpleTasks(filteredTasks);
     }
 
     public List<Task> loadTasks() {
@@ -66,10 +67,6 @@ public class TaskManager {
             }
         }
         sb.append("\n]");
-
-        // System.out.println("--------------- saving tasks ----------------");
-        // System.out.println(sb.toString());
-        // System.out.println("--------------- saving tasks ----------------");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))){
             writer.write(sb.toString());

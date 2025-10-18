@@ -13,7 +13,6 @@ public class CommandOperations {
 
     public static void add(String[] args){
         String description = args[1];
-        System.out.println("Adding task with description: " + description);
 
         if(isTaskDescriptionVaild(description)){
             System.out.println("Invalid task description provided.");
@@ -29,18 +28,17 @@ public class CommandOperations {
 
         TaskManager taskManager = new TaskManager();
         List<Task> tasks = taskManager.loadTasks();
-        // System.out.println("Loaded Tasks: " + tasks.size());
 
         int newTaskId = tasks.size() + 1;
-        String status = "todo";
-        Task newTask = new Task(newTaskId, description, status, new java.util.Date(), new java.util.Date());
+        Task newTask = new Task(newTaskId, description, "todo", new java.util.Date(), new java.util.Date());
         tasks.add(newTask);
-       try {
-           taskManager.saveTasks(tasks);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-        System.out.println("New Task Created: " + newTask);
+        try {
+            taskManager.saveTasks(tasks);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("New Task Created: ");
+        Utils.printSingleTask(newTask);
         
     }
 
@@ -51,8 +49,10 @@ public class CommandOperations {
        if (!Utils.isFileExists(PATH)) {
            System.out.println("Tasks file does not exist. create some tasks first.");
        }
+
        TaskManager taskManager = new TaskManager();
        List<Task> tasks = taskManager.loadTasks();
+
        if(tasks.isEmpty()){
            System.out.println("No tasks found to update. Create some tasks first.");
            return;
@@ -79,10 +79,15 @@ public class CommandOperations {
        } catch (IOException e) {
            throw new RuntimeException(e);
        }
+
+       System.out.println("Task with ID " + taskId + " has been updated.");
+       Utils.printSingleTask(tasks.stream()
+               .filter(t -> t.getId() == Integer.parseInt(taskId))
+               .findFirst()
+               .orElse(null));
    } 
    public static void delete(String[] args){
        String taskId = args[1];
-       System.out.println("Deleting task with ID: " + taskId);
        if (!Utils.isFileExists(PATH)) {
            System.out.println("Tasks file does not exist. create some tasks first.");
        }
@@ -110,12 +115,14 @@ public class CommandOperations {
        } catch (IOException e) {
            throw new RuntimeException(e);
        }
+       System.out.println("Task with ID " + taskId + " has been deleted.");
+       System.out.println("Updated Task List:");
+       Utils.printMulitpleTasks(updatedTasks);
 
    } 
 
    public static void markInProgress(String[] args){
        String taskId = args[1];
-       System.out.println("Marking task with ID: " + taskId + " as in-progress");
        if (!Utils.isFileExists(PATH)) {
            System.out.println("Tasks file does not exist. create some tasks first.");
        }
@@ -147,16 +154,23 @@ public class CommandOperations {
        } catch (IOException e) {
            throw new RuntimeException(e);
        }
+
+       System.out.println("Task with ID " + taskId + " has been marked as in-progress.");
+       Utils.printSingleTask(tasks.stream()
+               .filter(t -> t.getId() == Integer.parseInt(taskId))
+               .findFirst()
+               .orElse(null));
    }
     
     public static void markDone(String[] args){
         String taskId = args[1];
-        System.out.println("Marking task with ID: " + taskId + " as done");
         if (!Utils.isFileExists(PATH)) {
             System.out.println("Tasks file does not exist. create some tasks first.");
         }
+
         TaskManager taskManager = new TaskManager();
         List<Task> tasks = taskManager.loadTasks();
+
         if (tasks.isEmpty()) {
             System.out.println("No tasks found to mark. Create some tasks first.");
             return;
@@ -197,22 +211,15 @@ public class CommandOperations {
         }
         if (args.length < 2) {
             System.out.println("No additional parameters provided for list command. Listing all tasks.");
-            tasks.forEach(System.out::println);
+            Utils.printMulitpleTasks(tasks);
             return;
         }
 
         switch (args[1]) {
-            case "done":
-                taskManager.getTasksByStatus("done");
-                break;
-            case "in-progress":
-                taskManager.getTasksByStatus("in-progress");
-                break;
-            case "todo":
-                taskManager.getTasksByStatus("todo");
-                break;
-            default:
-                System.out.println("Unknown command: " + args[1]);
+            case "done" -> taskManager.getTasksByStatus("done");
+            case "in-progress" -> taskManager.getTasksByStatus("in-progress");
+            case "todo" -> taskManager.getTasksByStatus("todo");
+            default -> System.out.println("Unknown command: " + args[1]);
         }
     }
 }

@@ -9,51 +9,51 @@ public class Main {
         }
         String command = args[0];
         switch (command) {
-            case "add":
-                if(args.length < 2) {
+            case "add" -> {
+                if (args.length < 2) {
                     System.out.println("Description required for adding a task.");
                     return;
                 }
 
                 CommandOperations.add(args);
-                break;
-            case "update":
-                if(args.length < 3) {
+            }
+            case "update" -> {
+                if (args.length < 3) {
                     System.out.println("Task ID and new description required for updating a task.");
                     return;
                 }
                 CommandOperations.update(args);
-                break;
-            case "delete":
-                if(args.length < 2) {
+            }
+            case "delete" -> {
+                if (args.length < 2) {
                     System.out.println("Task ID required for deleting a task.");
                     return;
                 }
                 CommandOperations.delete(args);
-                break;
-            case "mark-in-progress":
-                if(args.length < 2) {
+            }
+            case "mark-in-progress" -> {
+                if (args.length < 2) {
                     System.out.println("Task ID required for marking a task as in-progress.");
                     return;
                 }
                 CommandOperations.markInProgress(args);
-                break;
-            case "mark-done":
-                if(args.length < 2) {
+            }
+            case "mark-done" -> {
+                if (args.length < 2) {
                     System.out.println("Task ID required for marking a task as done.");
                     return;
-                }   
+                }
                 CommandOperations.markDone(args);
-                break;
-            case "list":
+            }
+            case "list" ->
                 CommandOperations.manageListCommand(args);
-                break;
-            default:
+            default ->
                 System.out.println("Unknown command: " + command);
         }
     }
 
     public static void main(String[] args) {
         manageArgs(args);
+
     }
 }

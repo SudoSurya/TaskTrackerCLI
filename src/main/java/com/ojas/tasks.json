@@ -1,16 +1,16 @@
 [
 {
- "id": "2",
- "description": "whocare al ",
- "status": "in-progress",
- "createdAt": "Wed Oct 22 08:11:03 IST 2025",
- "updatedAt": "Sun Oct 19 04:13:57 IST 2025"
-},
-{
  "id": "3",
  "description": "learn javascript",
  "status": "in-progress",
- "createdAt": "Tue Oct 21 05:29:01 IST 2025",
- "updatedAt": "Sat Oct 18 22:44:01 IST 2025"
+ "createdAt": "Tue Oct 21 16:29:01 IST 2025",
+ "updatedAt": "Sun Oct 19 09:44:01 IST 2025"
+},
+{
+ "id": "3",
+ "description": "learn rust in 28 days",
+ "status": "todo",
+ "createdAt": "Sun Oct 19 04:55:44 IST 2025",
+ "updatedAt": "Sun Oct 19 04:55:44 IST 2025"
 }
 ]

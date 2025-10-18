@@ -19,7 +19,7 @@ public class Utils {
     public static void createFile(String path) throws IOException {
         Path filePath = Paths.get(path);
         Files.createFile(filePath);
-        String defaultContent = "{}";
+        String defaultContent = "[\n\n]";
         Files.writeString(filePath, defaultContent);
         System.out.println("File not found. Creating new file at " + filePath);
     }

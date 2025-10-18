@@ -32,7 +32,7 @@ public class Task {
     @Override
     public String toString() {
         return String.format("{\n" +
-                        " \"id\": %d,\n" +
+                        " \"id\": \"%s\",\n" +
                         " \"description\": \"%s\",\n" +
                         " \"status\": \"%s\",\n" +
                         " \"createdAt\": \"%s\",\n" +

@@ -5,26 +5,5 @@
     "status": "Todo",
     "createdAt": "Fri Oct 17 23:46:23 IST 2025",
     "updatedAt": "Fri Oct 17 23:46:23 IST 2025"
-  },
-  {
-    "id": "1",
-    "description": "New task",
-    "status": "Todo",
-    "createdAt": "Fri Oct 17 23:46:23 IST 2025",
-    "updatedAt": "Fri Oct 17 23:46:23 IST 2025"
-  },
-  {
-    "id": "1",
-    "description": "New task",
-    "status": "Todo",
-    "createdAt": "Fri Oct 17 23:46:23 IST 2025",
-    "updatedAt": "Fri Oct 17 23:46:23 IST 2025"
-  },
-  {
-    "id": "2",
-    "description": "New task",
-    "status": "Todo",
-    "createdAt": "Fri Oct 17 23:46:23 IST 2025",
-    "updatedAt": "Fri Oct 17 23:46:23 IST 2025"
   }
 ]

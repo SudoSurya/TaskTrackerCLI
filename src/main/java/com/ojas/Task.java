@@ -3,6 +3,7 @@ package com.ojas;
 import java.util.Date;
 
 public class Task {
+
     private int id;
     private String description;
     private String status;
@@ -41,7 +42,6 @@ public class Task {
                              }""",
                 id, description, status, createdAt, updatedAt);
     }
-
 
     public String getDescription() {
         return description;

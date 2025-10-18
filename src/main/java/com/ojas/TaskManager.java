@@ -24,7 +24,7 @@ public class TaskManager {
         List<Task> filteredTasks = this.tasks.stream()
                 .filter(task -> task.getStatus().equalsIgnoreCase(status))
                 .toList();
-        Utils.printMulitpleTasks(filteredTasks);
+        TablePrinter.printMulitpleTasks(filteredTasks);
     }
 
     public List<Task> loadTasks() {
@@ -61,13 +61,13 @@ public class TaskManager {
         sb.append("[\n");
         for (Task task : tasks) {
             sb.append(task.toString());
-            if (tasks.indexOf(task) != tasks.size() - 1){
+            if (tasks.indexOf(task) != tasks.size() - 1) {
                 sb.append(",\n");
             }
         }
         sb.append("\n]");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))) {
             writer.write(sb.toString());
         } catch (IOException e) {
             System.out.println("Error writing tasks: " + e.getMessage());
@@ -87,14 +87,18 @@ public class TaskManager {
             if (keyValue.length == 2) {
                 String key = extractQuotedText(keyValue[0]);
                 String value = extractQuotedText(keyValue[1]);
-                
-                
+
                 switch (removeSpacesFromKey(key)) {
-                    case "id" -> task.setId(Integer.parseInt(value));
-                    case "description" -> task.setDescription(value);
-                    case "status" -> task.setStatus(value);
-                    case "createdAt" -> task.setCreatedAt(convertToDate(value));
-                    case "updatedAt" -> task.setUpdatedAt(convertToDate(value));
+                    case "id" ->
+                        task.setId(Integer.parseInt(value));
+                    case "description" ->
+                        task.setDescription(value);
+                    case "status" ->
+                        task.setStatus(value);
+                    case "createdAt" ->
+                        task.setCreatedAt(convertToDate(value));
+                    case "updatedAt" ->
+                        task.setUpdatedAt(convertToDate(value));
                     default -> {
                         System.out.println("Unknown key: " + key);
                         throw new AssertionError();
@@ -154,7 +158,6 @@ public class TaskManager {
         // Convert to java.util.Date
         return Date.from(zonedDateTime.toInstant());
     }
-
 
     public static String extractQuotedText(String line) {
         int firstQuote = line.indexOf('"');

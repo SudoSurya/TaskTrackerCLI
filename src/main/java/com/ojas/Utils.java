@@ -10,10 +10,7 @@ import java.util.List;
 public class Utils {
     public static boolean isFileExists(String path) {
         Path filePath = Paths.get(path);
-        if (Files.notExists(filePath)) {
-            return false;
-        }
-        return true;
+        return !Files.notExists(filePath);
     }
 
     public static void createFile(String path) throws IOException {

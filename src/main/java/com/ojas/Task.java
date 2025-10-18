@@ -31,13 +31,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("{\n" +
-                        " \"id\": \"%s\",\n" +
-                        " \"description\": \"%s\",\n" +
-                        " \"status\": \"%s\",\n" +
-                        " \"createdAt\": \"%s\",\n" +
-                        " \"updatedAt\": \"%s\"\n" +
-                        "}",
+        return String.format("""
+                             {
+                              "id": "%s",
+                              "description": "%s",
+                              "status": "%s",
+                              "createdAt": "%s",
+                              "updatedAt": "%s"
+                             }""",
                 id, description, status, createdAt, updatedAt);
     }
 

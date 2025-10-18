@@ -49,9 +49,8 @@ public class TaskManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error reading tasks: " + e.getMessage());
         }
-
         return tasks;
     }
 
@@ -71,7 +70,7 @@ public class TaskManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))){
             writer.write(sb.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error writing tasks: " + e.getMessage());
         }
 
     }
@@ -82,35 +81,24 @@ public class TaskManager {
 
         Task task = new Task();
 
-        for (int i = 0; i < rawArray.length; i++) {
-            String line = rawArray[i];
-
+        for (String line : rawArray) {
             String[] keyValue = line.split(":", 2);
 
             if (keyValue.length == 2) {
                 String key = extractQuotedText(keyValue[0]);
                 String value = extractQuotedText(keyValue[1]);
-
-
+                
+                
                 switch (removeSpacesFromKey(key)) {
-                    case "id":
-                        task.setId(Integer.parseInt(value));
-                        break;
-                    case "description":
-                        task.setDescription(value);
-                        break;
-                    case "status":
-                        task.setStatus(value);
-                        break;
-                    case "createdAt":
-                        task.setCreatedAt(convertToDate(value));
-                        break;
-                    case "updatedAt":
-                        task.setUpdatedAt(convertToDate(value));
-                        break;
-                    default:
+                    case "id" -> task.setId(Integer.parseInt(value));
+                    case "description" -> task.setDescription(value);
+                    case "status" -> task.setStatus(value);
+                    case "createdAt" -> task.setCreatedAt(convertToDate(value));
+                    case "updatedAt" -> task.setUpdatedAt(convertToDate(value));
+                    default -> {
                         System.out.println("Unknown key: " + key);
                         throw new AssertionError();
+                    }
                 }
             }
         }
